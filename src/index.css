@@ -159,3 +159,285 @@ body {
 .lista li:last-child {
   border-bottom: none;
 }
+
+.pagina__cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.pagina__cabecalho h1 {
+  margin: 0;
+}
+
+/* Botões */
+
+.botao {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.botao svg {
+  width: 16px;
+  height: 16px;
+}
+
+.botao--primario {
+  background: var(--azul);
+  color: #ffffff;
+}
+
+.botao--primario:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+.botao--contorno {
+  background: #ffffff;
+  border-color: var(--borda);
+  color: var(--texto);
+}
+
+.botao--perigo {
+  background: var(--vermelho);
+  color: #ffffff;
+}
+
+.botao--perigo:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+/* Busca */
+
+.busca {
+  position: relative;
+  max-width: 340px;
+  margin-bottom: 20px;
+}
+
+.busca__icone {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  color: var(--texto-secundario);
+}
+
+.busca input {
+  width: 100%;
+  padding: 10px 12px 10px 36px;
+  border-radius: 8px;
+  border: 1px solid var(--borda);
+  background: #f7f8fc;
+  font-size: 14px;
+}
+
+/* Grid de categorias */
+
+.categorias-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.categoria-card {
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: var(--sombra-cartao);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  min-height: 130px;
+}
+
+.categoria-card__nome {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.categoria-card__divisor {
+  flex: 1;
+  border-bottom: 1px solid var(--borda);
+  margin: 14px 0;
+}
+
+.categoria-card__acoes {
+  display: flex;
+  gap: 12px;
+}
+
+.categoria-card__acoes button {
+  border: none;
+  background: none;
+  padding: 4px;
+  cursor: pointer;
+  color: var(--texto-secundario);
+}
+
+.categoria-card__acoes svg {
+  width: 17px;
+  height: 17px;
+}
+
+/* Paginação */
+
+.paginacao {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.paginacao__botao {
+  min-width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--borda);
+  background: #ffffff;
+  color: var(--texto);
+  font-size: 13px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.paginacao__botao svg {
+  width: 14px;
+  height: 14px;
+}
+
+.paginacao__botao:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.paginacao__botao--ativo {
+  background: var(--azul);
+  border-color: var(--azul);
+  color: #ffffff;
+}
+
+/* Modal */
+
+.modal__overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 24, 40, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 100;
+}
+
+.modal__cartao {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.modal__cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+}
+
+.modal__titulo {
+  font-size: 18px;
+  margin: 0;
+}
+
+.modal__titulo--centro {
+  text-align: center;
+}
+
+.modal__fechar {
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--texto-secundario);
+  padding: 4px;
+}
+
+.modal__fechar svg {
+  width: 18px;
+  height: 18px;
+}
+
+.modal__corpo {
+  padding: 0 24px 20px;
+}
+
+.modal__rodape {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 24px;
+  background: #f7f8fc;
+}
+
+.modal__rodape--centro {
+  justify-content: center;
+  background: none;
+  padding-top: 24px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--texto-secundario);
+  font-weight: 600;
+}
+
+.campo input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--borda);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--texto);
+}
+
+.modal__confirmacao {
+  padding: 32px 24px 24px;
+  text-align: center;
+}
+
+.modal__icone-alerta {
+  width: 52px;
+  height: 52px;
+  border-radius: 999px;
+  background: #fde8e8;
+  color: var(--vermelho);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.modal__icone-alerta svg {
+  width: 24px;
+  height: 24px;
+}
+
+.modal__texto-centro {
+  color: var(--texto-secundario);
+  font-size: 14px;
+  margin: 8px 0 0;
+}
