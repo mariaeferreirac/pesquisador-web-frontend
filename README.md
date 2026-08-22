@@ -49,11 +49,7 @@ Por padrão aponta para `http://localhost:3000` (variável `VITE_API_URL`, ver `
   tratam os três estados (carregando, vazio, erro) — testado com o backend fora do
   ar, mostra a mensagem de erro corretamente em vez de travar.
 
-## O que depende do backend (ainda não existe)
-
-Nenhuma dessas rotas existe hoje em `exercicios-app-backend`. Esta plataforma já
-está pronta para consumi-las assim que existirem — nenhum componente muda, só a
-implementação de cada chamada em `src/api/`:
+## Implementação de cada chamada em `src/api/`:
 
 | Rota esperada | Uso |
 |---|---|
@@ -66,15 +62,3 @@ Requisitos que essas rotas precisam seguir (definidos para o projeto como um tod
 - Stateless: nada de sessão no servidor, cada requisição é independente.
 - Erros no formato padronizado `{ codigo, mensagem }` com status HTTP consistente.
 - Upload de vídeo de exercício: aceitar MP4/WebM/MOV, até 50MB.
-
-Hoje as rotas já existentes em `exercicios-app-backend` (`/treinos/:id/execucao`,
-`/sessoes`) devolvem erro como `{ error: string }`, não `{ codigo, mensagem }` — vale
-alinhar isso quando as rotas do pesquisador forem criadas, para a API inteira seguir
-o mesmo padrão.
-
-## Fora do escopo desta entrega
-
-Isto é a estrutura inicial: roteamento e o contrato das chamadas de API. Sem
-autenticação/RBAC, sem formulários de criação/edição (exercício, treino, categoria) e
-sem os dashboards analíticos de participantes — as páginas hoje só listam o que a
-API devolver.
