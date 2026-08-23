@@ -1,7 +1,6 @@
-// Schema de erro padronizado esperado da API (código + mensagem).
+// Schema de erro retornado pelo backend (src/server.ts e src/routes/*.ts): { error: string }.
 export interface ErroApi {
-  codigo: string;
-  mensagem: string;
+  error: string;
 }
 
 export interface Categoria {
@@ -15,7 +14,9 @@ export interface Exercicio {
   videoUrl: string;
   instrucao: string[];
   categoriaId: number;
+  nivel: number;
   ativo: boolean;
+  criadoEm?: string;
 }
 
 export interface TreinoExercicioInput {

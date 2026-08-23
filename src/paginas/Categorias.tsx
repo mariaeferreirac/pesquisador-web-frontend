@@ -41,6 +41,13 @@ export function Categorias() {
   }, [busca, carregar]);
 
   const totalPaginas = categorias ? Math.max(1, Math.ceil(categorias.length / ITENS_POR_PAGINA)) : 1;
+
+  React.useEffect(() => {
+    if (paginaAtual > totalPaginas) {
+      setPaginaAtual(totalPaginas);
+    }
+  }, [paginaAtual, totalPaginas]);
+
   const categoriasDaPagina =
     categorias?.slice((paginaAtual - 1) * ITENS_POR_PAGINA, paginaAtual * ITENS_POR_PAGINA) ?? [];
 
