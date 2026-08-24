@@ -74,3 +74,70 @@ export function IconeSetaDireita({ className }: IconeProps) {
     </svg>
   );
 }
+
+export function IconeChevronBaixo({ className }: IconeProps) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <path d="M4.5 7.5 10 13l5.5-5.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+export function IconePlay({ className }: IconeProps) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="currentColor">
+      <path d="M7 4.8v10.4a.8.8 0 0 0 1.22.68l8.2-5.2a.8.8 0 0 0 0-1.36l-8.2-5.2A.8.8 0 0 0 7 4.8Z" />
+    </svg>
+  );
+}
+
+export function IconeVideo({ className }: IconeProps) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <rect x="2.5" y="4.5" width="10" height="11" rx="1.4" />
+      <path d="M12.5 8.2 17 5.6v8.8l-4.5-2.6Z" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+export function IconeTag({ className }: IconeProps) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <path
+        d="M10.6 2.8H4.6a1.8 1.8 0 0 0-1.8 1.8v6l8.4 8.4a1.4 1.4 0 0 0 2 0l5.6-5.6a1.4 1.4 0 0 0 0-2Z"
+        strokeLinejoin="round"
+      />
+      <circle cx="7.1" cy="7.1" r="1.1" />
+    </svg>
+  );
+}
+
+export function IconeTendencia({ className }: IconeProps) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <path d="M2.5 14.5 8 9l3.2 3.2 6.3-6.7" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M13.8 5.5h3.7v3.7" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+export function IconeNuvemUpload({ className }: IconeProps) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path
+        d="M6 15.5h8a3 3 0 0 0 .6-5.94 4 4 0 0 0-7.66-1.7A3.3 3.3 0 0 0 6 15.5Z"
+        strokeLinejoin="round"
+      />
+      <path d="M10 12.5v-5M7.8 9.4 10 7.2l2.2 2.2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+export function IconeArquivo({ className }: IconeProps) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <path d="M6 2.5h5.5L15 6v11.5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1Z" strokeLinejoin="round" />
+      <path d="M11.2 2.5V6H15" strokeLinejoin="round" />
+    </svg>
+  );
+}
