@@ -48,6 +48,11 @@ export function ModalFormularioExercicio({
     evento.preventDefault();
     setErro(null);
 
+    if (!categorias.some((categoria) => categoria.id === Number(categoriaId))) {
+      setErro('Selecione uma categoria válida.');
+      return;
+    }
+
     if (!arquivoVideo && !exercicio) {
       setErro('Selecione o vídeo da execução do exercício.');
       return;
