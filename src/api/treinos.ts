@@ -1,24 +1,35 @@
 import { apiRequest } from './client';
-import type { Treino, TreinoExercicioInput } from '../types/api';
+import type { TreinoAtualizarRequest, TreinoCriarRequest, TreinoDetalhe, TreinoResumo } from '../types/api';
 
-// Rotas ainda não existem no backend.
-export function listarTreinos(): Promise<Treino[]> {
-  return apiRequest<Treino[]>('/treinos');
+export interface FiltrosTreinos {
+  busca?: string;
+  fase?: string;
 }
 
-export function buscarTreino(id: number): Promise<Treino> {
-  return apiRequest<Treino>(`/treinos/${id}`);
+export function listarTreinos(filtros: FiltrosTreinos = {}): Promise<TreinoResumo[]> {
+  const parametros = new URLSearchParams();
+  if (filtros.busca && filtros.busca.trim()) {
+    parametros.set('busca', filtros.busca.trim());
+  }
+  if (filtros.fase) {
+    parametros.set('fase', filtros.fase);
+  }
+  const query = parametros.toString();
+  return apiRequest<TreinoResumo[]>(`/treinos${query ? `?${query}` : ''}`);
 }
 
-export interface CriarTreinoInput {
-  nome: string;
-  descricao: string;
-  fase: string;
-  nivel: number;
-  quantidadeSemanas: number;
-  exercicios: TreinoExercicioInput[];
+export function buscarTreino(id: number): Promise<TreinoDetalhe> {
+  return apiRequest<TreinoDetalhe>(`/treinos/${id}`);
 }
 
-export function criarTreino(dados: CriarTreinoInput): Promise<Treino> {
-  return apiRequest<Treino>('/treinos', { method: 'POST', body: dados });
+export function criarTreino(dados: TreinoCriarRequest): Promise<TreinoDetalhe> {
+  return apiRequest<TreinoDetalhe>('/treinos', { method: 'POST', body: dados });
+}
+
+export function atualizarTreino(id: number, dados: TreinoAtualizarRequest): Promise<TreinoDetalhe> {
+  return apiRequest<TreinoDetalhe>(`/treinos/${id}`, { method: 'PUT', body: dados });
+}
+
+export function removerTreino(id: number): Promise<void> {
+  return apiRequest<void>(`/treinos/${id}`, { method: 'DELETE' });
 }
