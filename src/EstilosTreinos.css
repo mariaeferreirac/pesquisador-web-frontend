@@ -1,0 +1,257 @@
+/* Estilos específicos do módulo de Treinos — reaproveita classes globais
+   (.botao, .campo, .tabela, .cartao, .modal__*, .busca, .paginacao, .badge)
+   definidas em index.css sempre que possível. Criação/edição/visualização e
+   seleção de exercícios são telas de página cheia (não modais), seguindo o
+   Figma; apenas confirmações rápidas (excluir, sair sem salvar, sucesso)
+   continuam como modais. */
+
+/* ---- Página de listagem ---- */
+.filtro-fase {
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid var(--borda);
+  background: #ffffff;
+  color: var(--texto);
+  font-size: 14px;
+}
+
+.treinos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+/* ---- TreinoCard ---- */
+.treino-card {
+  background: #fff;
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.treino-card:hover {
+  box-shadow: var(--sombra-cartao);
+}
+
+.treino-card__topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.treino-card__duracao {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--texto-secundario);
+}
+
+.treino-card__nome {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.treino-card__nivel {
+  font-size: 12px;
+  color: var(--texto-secundario);
+}
+
+.treino-card__acoes {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.treino-card__acoes button {
+  border: none;
+  background: none;
+  padding: 4px;
+  cursor: pointer;
+  color: var(--texto-secundario);
+}
+
+.treino-card__acoes svg {
+  width: 17px;
+  height: 17px;
+}
+
+.badge-fase {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  text-transform: uppercase;
+}
+
+.badge-fase--iniciante {
+  background: #e6f7ec;
+  color: #1a9c4c;
+}
+
+.badge-fase--intermediario {
+  background: #fff4e0;
+  color: #b8860b;
+}
+
+.badge-fase--avancado {
+  background: #fdecec;
+  color: #e0433f;
+}
+
+.badge-categoria {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: #eaf0fe;
+  color: #2f5fe0;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ---- Cabeçalho com botão de voltar (tela de seleção de exercícios) ---- */
+.pagina__titulo-com-voltar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pagina__titulo-com-voltar h1 {
+  margin: 0;
+}
+
+.botao-icone {
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--texto);
+  padding: 4px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.botao-icone svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ---- Tela de criação/edição/visualização de treino ---- */
+.pagina__acoes {
+  display: flex;
+  gap: 10px;
+}
+
+.treino-formulario .cartao {
+  margin-bottom: 20px;
+}
+
+.treino-formulario__grade {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.treino-formulario__grade .cartao {
+  margin-bottom: 0;
+}
+
+.treino-formulario h3 {
+  margin: 0 0 14px;
+  font-size: 14px;
+}
+
+.treino-formulario .campo {
+  margin-bottom: 14px;
+}
+
+.formulario__linha-dupla {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.formulario__secao-cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.formulario__secao-cabecalho h3 {
+  margin: 0;
+}
+
+.formulario__duracao {
+  margin-top: 4px;
+  display: inline-flex;
+  gap: 6px;
+  background: #eaf0fe;
+  color: #2f5fe0;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.exercicios-selecionados__vazio {
+  color: var(--texto-secundario);
+  text-align: center;
+  padding: 24px 0;
+}
+
+/* ---- Tela de seleção de exercícios ---- */
+.selecao-exercicios-treino .cartao {
+  margin-bottom: 20px;
+}
+
+.selecao-exercicios-treino__rodape {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: #111827;
+  color: #fff;
+  border-radius: 12px;
+}
+
+.modal-selecao-exercicios__paginacao {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--texto-secundario);
+}
+
+.modal-selecao-exercicios__paginacao button {
+  border: 1px solid var(--borda);
+  background: #fff;
+  border-radius: 6px;
+  min-width: 28px;
+  height: 28px;
+  cursor: pointer;
+}
+
+.modal-selecao-exercicios__paginacao button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.modal-selecao-exercicios__rodape-acoes {
+  display: flex;
+  gap: 10px;
+}
+
+/* ---- Modal de sucesso ---- */
+.modal__icone-alerta--sucesso {
+  background: #dcfce7;
+  color: #15803d;
+}

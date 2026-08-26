@@ -55,7 +55,7 @@ Por padrão aponta para `http://localhost:3000` (variável `VITE_API_URL`, ver `
 |---|---|
 | `GET /categorias`, `POST /categorias` | listar/criar categorias |
 | `GET /exercicios`, `POST /exercicios`, `PATCH /exercicios/:id`, `DELETE /exercicios/:id` | CRUD de exercícios |
-| `GET /treinos`, `POST /treinos` | listar/criar treinos (com os `TreinoExercicio`) |
+| `GET /treinos`, `GET /treinos/:id`, `POST /treinos`, `PUT /treinos/:id`, `DELETE /treinos/:id` | CRUD de treinos — nome, instruções, fase, nível, semanas, descanso entre séries e exercícios vinculados (`exercicioId`, séries, descanso, multiplicador de velocidade) |
 
 Requisitos que essas rotas precisam seguir (definidos para o projeto como um todo):
 - REST: URL única por recurso, verbos HTTP semânticos, payload em JSON.
