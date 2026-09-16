@@ -25,6 +25,7 @@ export type NivelTreino = number;
 /** Item de exercício vinculado a um treino — formato usado tanto para enviar (POST/PUT) quanto para receber (GET) do backend. */
 export interface ExercicioVinculado {
   exercicioId: number;
+  ordem: number;
   series: number;
   descansoSegundos: number;
   multiplicadorVelocidade: number;
