@@ -133,8 +133,9 @@ export function TreinoFormulario({ modo }: TreinoFormularioProps) {
     const idsJaVinculados = new Set(exercicios.map((e) => e.exercicioId));
     const novos: ExercicioVinculado[] = exerciciosSelecionados
       .filter((e) => !idsJaVinculados.has(e.id))
-      .map((e) => ({
+      .map((e, index) => ({
         exercicioId: e.id,
+        ordem: exercicios.length + index + 1,
         series: 3,
         descansoSegundos: descanso,
         multiplicadorVelocidade: 1,
@@ -191,6 +192,7 @@ export function TreinoFormulario({ modo }: TreinoFormularioProps) {
       descansoEntreSeriesSegundos: Number(descanso),
       exercicios: exercicios.map((exercicio) => ({
         ...exercicio,
+        ordem: exercicio.ordem,
         descansoSegundos: Number(descanso),
       })),
     };
