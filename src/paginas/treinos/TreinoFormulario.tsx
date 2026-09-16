@@ -51,7 +51,7 @@ export function TreinoFormulario({ modo }: TreinoFormularioProps) {
   const [exerciciosDisponiveis, setExerciciosDisponiveis] = React.useState<Exercicio[]>([]);
 
   const [nome, setNome] = React.useState('');
-  const [instrucao, setInstrucao] = React.useState('');
+  const [instrucoes, setInstrucoes] = React.useState('');
   const [fase, setFase] = React.useState<FaseTreino>('Iniciante');
   const [nivel, setNivel] = React.useState<NivelTreino>(1);
   const [quantidadeSemanas, setQuantidadeSemanas] = React.useState(4);
@@ -82,7 +82,7 @@ export function TreinoFormulario({ modo }: TreinoFormularioProps) {
         if (cancelado) return;
         setTreinoCarregado(detalhe);
         setNome(detalhe.nome);
-        setInstrucao(detalhe.instrucao);
+        setInstrucoes(detalhe.instrucoes);
         setFase(detalhe.fase);
         setNivel(detalhe.nivel);
         setQuantidadeSemanas(detalhe.quantidadeSemanas);
@@ -173,7 +173,7 @@ export function TreinoFormulario({ modo }: TreinoFormularioProps) {
       setErro('Informe o nome do treino.');
       return;
     }
-    if (!instrucao.trim()) {
+    if (!instrucoes.trim()) {
       setErro('Informe a instrução de uso de materiais.');
       return;
     }
@@ -184,7 +184,7 @@ export function TreinoFormulario({ modo }: TreinoFormularioProps) {
 
     const dados: TreinoCriarRequest = {
       nome: nome.trim(),
-      instrucao: instrucao.trim(),
+      instrucoes: instrucoes.trim(),
       fase,
       nivel,
       quantidadeSemanas: Number(quantidadeSemanas),
@@ -310,9 +310,9 @@ export function TreinoFormulario({ modo }: TreinoFormularioProps) {
             <label className="campo">
               Instrução de Uso de Materiais
               <textarea
-                value={instrucao}
+                value={instrucoes}
                 onChange={(e) => {
-                  setInstrucao(e.target.value);
+                  setInstrucoes(e.target.value);
                   marcarModificado();
                 }}
                 placeholder="Ex: Você deve usar tais materiais para esse treino..."

@@ -39,7 +39,7 @@ export interface ExercicioVinculadoDetalhado extends ExercicioVinculado {
 /** Corpo enviado em POST /treinos e PUT /treinos/{id} */
 export interface TreinoCriarRequest {
   nome: string;
-  instrucao: string;
+  instrucoes: string;
   fase: FaseTreino;
   nivel: NivelTreino;
   quantidadeSemanas: number;
@@ -65,7 +65,7 @@ export interface TreinoResumo {
 export interface TreinoDetalhe {
   id: number;
   nome: string;
-  instrucao: string;
+  instrucoes: string;
   fase: FaseTreino;
   nivel: NivelTreino;
   quantidadeSemanas: number;
