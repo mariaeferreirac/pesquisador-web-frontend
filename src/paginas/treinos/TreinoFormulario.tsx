@@ -28,7 +28,21 @@ type TreinoFormularioProps = {
 };
 
 const NIVEIS: NivelTreino[] = [1, 2];
-const VELOCIDADES = [0.5, 0.75, 1, 1.25, 1.5];
+
+/**
+ * Mesmo tempo base assumido pelo backend (ver TEMPO_BASE_SEGUNDOS_POR_SERIE em
+ * src/utils/treino.ts) para converter o "Tempo de Série" exibido ao usuário em
+ * multiplicadorVelocidade, que é o que o backend efetivamente persiste.
+ */
+const TEMPO_BASE_SEGUNDOS_POR_SERIE = 40;
+
+function temposerieParaMultiplicador(segundos: number): number {
+  return TEMPO_BASE_SEGUNDOS_POR_SERIE / Math.max(segundos, 1);
+}
+
+function multiplicadorParaTemposerie(multiplicadorVelocidade: number): number {
+  return Math.round(TEMPO_BASE_SEGUNDOS_POR_SERIE / multiplicadorVelocidade);
+}
 
 /**
  * Tela cheia (não é modal) de criação/edição/visualização de treino, seguindo
@@ -137,8 +151,8 @@ export function TreinoFormulario({ modo }: TreinoFormularioProps) {
         exercicioId: e.id,
         ordem: exercicios.length + index + 1,
         series: 3,
-        descansoSegundos: descanso,
-        multiplicadorVelocidade: 1,
+        descansoSegundos: 30,
+        multiplicadorVelocidade: temposerieParaMultiplicador(30),
       }));
     setExercicios((atual) => [...atual, ...novos]);
     setModificado(true);
@@ -158,6 +172,17 @@ export function TreinoFormulario({ modo }: TreinoFormularioProps) {
   function atualizarVelocidade(exercicioId: number, multiplicadorVelocidade: number) {
     setExercicios((atual) =>
       atual.map((e) => (e.exercicioId === exercicioId ? { ...e, multiplicadorVelocidade } : e)),
+    );
+    setModificado(true);
+  }
+
+  function atualizarTemposerieExercicio(exercicioId: number, temposerieSegundos: number) {
+    atualizarVelocidade(exercicioId, temposerieParaMultiplicador(temposerieSegundos));
+  }
+
+  function atualizarDescansoExercicio(exercicioId: number, descansoSegundos: number) {
+    setExercicios((atual) =>
+      atual.map((e) => (e.exercicioId === exercicioId ? { ...e, descansoSegundos } : e)),
     );
     setModificado(true);
   }
@@ -190,11 +215,7 @@ export function TreinoFormulario({ modo }: TreinoFormularioProps) {
       nivel,
       quantidadeSemanas: Number(quantidadeSemanas),
       descansoEntreSeriesSegundos: Number(descanso),
-      exercicios: exercicios.map((exercicio) => ({
-        ...exercicio,
-        ordem: exercicio.ordem,
-        descansoSegundos: Number(descanso),
-      })),
+      exercicios,
     };
 
     setSalvando(true);
@@ -361,9 +382,9 @@ export function TreinoFormulario({ modo }: TreinoFormularioProps) {
 
           <div className="cartao">
             <h3>Parâmetros</h3>
-            <div className="formulario__linha-dupla">
-              <label className="campo">
-                Quantidade de Semanas
+            <label className="campo">
+              Quantidade de Semanas
+              <div className="formulario__campo-com-unidade">
                 <input
                   type="number"
                   min={1}
@@ -375,9 +396,12 @@ export function TreinoFormulario({ modo }: TreinoFormularioProps) {
                   disabled={somenteLeitura}
                   required
                 />
-              </label>
-              <label className="campo">
-                Tempo de Descanso entre Séries (segundos)
+                <span>Semanas</span>
+              </div>
+            </label>
+            <label className="campo">
+              Tempo de descanso entre diferentes exercícios
+              <div className="formulario__campo-com-unidade">
                 <input
                   type="number"
                   min={0}
@@ -389,8 +413,9 @@ export function TreinoFormulario({ modo }: TreinoFormularioProps) {
                   disabled={somenteLeitura}
                   required
                 />
-              </label>
-            </div>
+                <span>Segundos</span>
+              </div>
+            </label>
             <div className="formulario__duracao">
               <span>Duração Estimada</span>
               <strong>⏱ {duracaoExibida} min</strong>
@@ -417,9 +442,10 @@ export function TreinoFormulario({ modo }: TreinoFormularioProps) {
                   <tr>
                     <th>Exercício</th>
                     <th>Categoria</th>
-                    <th>Séries</th>
-                    <th>Velocidade</th>
-                    {!somenteLeitura ? <th></th> : null}
+                    <th className="tabela__coluna-centralizada">Séries</th>
+                    <th className="tabela__coluna-centralizada">Tempo de Série</th>
+                    <th className="tabela__coluna-centralizada">Tempo de Descanso entre Séries</th>
+                    {!somenteLeitura ? <th>Ações</th> : null}
                   </tr>
                 </thead>
                 <tbody>
@@ -429,32 +455,41 @@ export function TreinoFormulario({ modo }: TreinoFormularioProps) {
                       <td>
                         <span className="badge-categoria">{exercicio.categoria}</span>
                       </td>
-                      <td>
+                      <td className="tabela__coluna-centralizada">
                         <input
                           type="number"
                           min={1}
+                          className="tabela__input-numero"
                           value={exercicio.series}
                           onChange={(e) => atualizarSeries(exercicio.exercicioId, Number(e.target.value))}
                           aria-label={`Séries de ${exercicio.nome}`}
                           disabled={somenteLeitura}
                         />
                       </td>
-                      <td>
-                        <select
-                          value={exercicio.multiplicadorVelocidade}
-                          onChange={(e) => atualizarVelocidade(exercicio.exercicioId, Number(e.target.value))}
-                          aria-label={`Velocidade de ${exercicio.nome}`}
+                      <td className="tabela__coluna-centralizada">
+                        <input
+                          type="number"
+                          min={1}
+                          className="tabela__input-numero"
+                          value={multiplicadorParaTemposerie(exercicio.multiplicadorVelocidade)}
+                          onChange={(e) => atualizarTemposerieExercicio(exercicio.exercicioId, Number(e.target.value))}
+                          aria-label={`Tempo de série de ${exercicio.nome}`}
                           disabled={somenteLeitura}
-                        >
-                          {VELOCIDADES.map((valor) => (
-                            <option key={valor} value={valor}>
-                              {valor.toFixed(2)}x
-                            </option>
-                          ))}
-                        </select>
+                        />
+                      </td>
+                      <td className="tabela__coluna-centralizada">
+                        <input
+                          type="number"
+                          min={0}
+                          className="tabela__input-numero"
+                          value={exercicio.descansoSegundos}
+                          onChange={(e) => atualizarDescansoExercicio(exercicio.exercicioId, Number(e.target.value))}
+                          aria-label={`Tempo de descanso entre séries de ${exercicio.nome}`}
+                          disabled={somenteLeitura}
+                        />
                       </td>
                       {!somenteLeitura ? (
-                        <td>
+                        <td className="tabela__acoes">
                           <button
                             type="button"
                             onClick={() => removerExercicio(exercicio.exercicioId)}

@@ -178,6 +178,22 @@
   gap: 12px;
 }
 
+.formulario__campo-com-unidade {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.formulario__campo-com-unidade input {
+  flex: 1;
+}
+
+.formulario__campo-com-unidade span {
+  color: var(--texto-secundario);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
 .formulario__secao-cabecalho {
   display: flex;
   align-items: center;
@@ -198,6 +214,22 @@
   padding: 6px 12px;
   border-radius: 8px;
   font-size: 13px;
+}
+
+.tabela th.tabela__coluna-centralizada,
+.tabela td.tabela__coluna-centralizada {
+  text-align: center;
+}
+
+.tabela__input-numero {
+  width: 64px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--borda);
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--texto);
+  text-align: center;
 }
 
 .exercicios-selecionados__vazio {
