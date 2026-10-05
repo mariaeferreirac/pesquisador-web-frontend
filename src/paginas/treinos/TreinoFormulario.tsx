@@ -547,5 +547,5 @@ function calcularDuracaoPreview(exercicios: ExercicioVinculado[]): number {
     const descansoTransicaoSegundos = ehUltimoExercicio ? 0 : exercicio.descansoTransicaoSegundos;
     return acumulado + tempoExecucaoSegundos + descansoProprioSegundos + descansoTransicaoSegundos;
   }, 0);
-  return Math.max(1, Math.round(totalSegundos / 60));
+  return Math.max(1, Math.ceil(totalSegundos / 60));
 }
