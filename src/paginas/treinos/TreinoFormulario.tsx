@@ -69,7 +69,6 @@ export function TreinoFormulario({ modo }: TreinoFormularioProps) {
   const [fase, setFase] = React.useState<FaseTreino>('Iniciante');
   const [nivel, setNivel] = React.useState<NivelTreino>(1);
   const [quantidadeSemanas, setQuantidadeSemanas] = React.useState(4);
-  const [descanso, setDescanso] = React.useState(30);
   const [exercicios, setExercicios] = React.useState<ExercicioVinculado[]>([]);
 
   const [selecionandoExercicios, setSelecionandoExercicios] = React.useState(false);
@@ -100,7 +99,6 @@ export function TreinoFormulario({ modo }: TreinoFormularioProps) {
         setFase(detalhe.fase);
         setNivel(detalhe.nivel);
         setQuantidadeSemanas(detalhe.quantidadeSemanas);
-        setDescanso(detalhe.descansoEntreSeriesSegundos);
         setExercicios(detalhe.exercicios);
       })
       .catch((erroCapturado) => {
@@ -152,6 +150,7 @@ export function TreinoFormulario({ modo }: TreinoFormularioProps) {
         ordem: exercicios.length + index + 1,
         series: 3,
         descansoSegundos: 30,
+        descansoTransicaoSegundos: 30,
         multiplicadorVelocidade: temposerieParaMultiplicador(30),
       }));
     setExercicios((atual) => [...atual, ...novos]);
@@ -187,7 +186,14 @@ export function TreinoFormulario({ modo }: TreinoFormularioProps) {
     setModificado(true);
   }
 
-  const duracaoEstimadaPreview = calcularDuracaoPreview(exercicios, descanso);
+  function atualizarDescansoTransicao(exercicioId: number, descansoTransicaoSegundos: number) {
+    setExercicios((atual) =>
+      atual.map((e) => (e.exercicioId === exercicioId ? { ...e, descansoTransicaoSegundos } : e)),
+    );
+    setModificado(true);
+  }
+
+  const duracaoEstimadaPreview = calcularDuracaoPreview(exercicios);
   const duracaoExibida =
     modoAtual === 'visualizar' && treinoCarregado ? treinoCarregado.duracaoEstimadaMinutos : duracaoEstimadaPreview;
 
@@ -214,7 +220,6 @@ export function TreinoFormulario({ modo }: TreinoFormularioProps) {
       fase,
       nivel,
       quantidadeSemanas: Number(quantidadeSemanas),
-      descansoEntreSeriesSegundos: Number(descanso),
       exercicios,
     };
 
@@ -399,23 +404,6 @@ export function TreinoFormulario({ modo }: TreinoFormularioProps) {
                 <span>Semanas</span>
               </div>
             </label>
-            <label className="campo">
-              Tempo de descanso entre diferentes exercícios
-              <div className="formulario__campo-com-unidade">
-                <input
-                  type="number"
-                  min={0}
-                  value={descanso}
-                  onChange={(e) => {
-                    setDescanso(Number(e.target.value));
-                    marcarModificado();
-                  }}
-                  disabled={somenteLeitura}
-                  required
-                />
-                <span>Segundos</span>
-              </div>
-            </label>
             <div className="formulario__duracao">
               <span>Duração Estimada</span>
               <strong>⏱ {duracaoExibida} min</strong>
@@ -449,57 +437,79 @@ export function TreinoFormulario({ modo }: TreinoFormularioProps) {
                   </tr>
                 </thead>
                 <tbody>
-                  {exerciciosDetalhados.map((exercicio) => (
-                    <tr key={exercicio.exercicioId}>
-                      <td>{exercicio.nome}</td>
-                      <td>
-                        <span className="badge-categoria">{exercicio.categoria}</span>
-                      </td>
-                      <td className="tabela__coluna-centralizada">
-                        <input
-                          type="number"
-                          min={1}
-                          className="tabela__input-numero"
-                          value={exercicio.series}
-                          onChange={(e) => atualizarSeries(exercicio.exercicioId, Number(e.target.value))}
-                          aria-label={`Séries de ${exercicio.nome}`}
-                          disabled={somenteLeitura}
-                        />
-                      </td>
-                      <td className="tabela__coluna-centralizada">
-                        <input
-                          type="number"
-                          min={1}
-                          className="tabela__input-numero"
-                          value={multiplicadorParaTemposerie(exercicio.multiplicadorVelocidade)}
-                          onChange={(e) => atualizarTemposerieExercicio(exercicio.exercicioId, Number(e.target.value))}
-                          aria-label={`Tempo de série de ${exercicio.nome}`}
-                          disabled={somenteLeitura}
-                        />
-                      </td>
-                      <td className="tabela__coluna-centralizada">
-                        <input
-                          type="number"
-                          min={0}
-                          className="tabela__input-numero"
-                          value={exercicio.descansoSegundos}
-                          onChange={(e) => atualizarDescansoExercicio(exercicio.exercicioId, Number(e.target.value))}
-                          aria-label={`Tempo de descanso entre séries de ${exercicio.nome}`}
-                          disabled={somenteLeitura}
-                        />
-                      </td>
-                      {!somenteLeitura ? (
-                        <td className="tabela__acoes">
-                          <button
-                            type="button"
-                            onClick={() => removerExercicio(exercicio.exercicioId)}
-                            aria-label={`Remover ${exercicio.nome}`}
-                          >
-                            <IconeLixeira />
-                          </button>
+                  {exerciciosDetalhados.map((exercicio, indice) => (
+                    <React.Fragment key={exercicio.exercicioId}>
+                      <tr>
+                        <td>{exercicio.nome}</td>
+                        <td>
+                          <span className="badge-categoria">{exercicio.categoria}</span>
                         </td>
+                        <td className="tabela__coluna-centralizada">
+                          <input
+                            type="number"
+                            min={1}
+                            className="tabela__input-numero"
+                            value={exercicio.series}
+                            onChange={(e) => atualizarSeries(exercicio.exercicioId, Number(e.target.value))}
+                            aria-label={`Séries de ${exercicio.nome}`}
+                            disabled={somenteLeitura}
+                          />
+                        </td>
+                        <td className="tabela__coluna-centralizada">
+                          <input
+                            type="number"
+                            min={1}
+                            className="tabela__input-numero"
+                            value={multiplicadorParaTemposerie(exercicio.multiplicadorVelocidade)}
+                            onChange={(e) => atualizarTemposerieExercicio(exercicio.exercicioId, Number(e.target.value))}
+                            aria-label={`Tempo de série de ${exercicio.nome}`}
+                            disabled={somenteLeitura}
+                          />
+                        </td>
+                        <td className="tabela__coluna-centralizada">
+                          <input
+                            type="number"
+                            min={0}
+                            className="tabela__input-numero"
+                            value={exercicio.descansoSegundos}
+                            onChange={(e) => atualizarDescansoExercicio(exercicio.exercicioId, Number(e.target.value))}
+                            aria-label={`Tempo de descanso entre séries de ${exercicio.nome}`}
+                            disabled={somenteLeitura}
+                          />
+                        </td>
+                        {!somenteLeitura ? (
+                          <td className="tabela__acoes">
+                            <button
+                              type="button"
+                              onClick={() => removerExercicio(exercicio.exercicioId)}
+                              aria-label={`Remover ${exercicio.nome}`}
+                            >
+                              <IconeLixeira />
+                            </button>
+                          </td>
+                        ) : null}
+                      </tr>
+
+                      {indice < exerciciosDetalhados.length - 1 ? (
+                        <tr className="tabela__linha-transicao">
+                          <td colSpan={3}>
+                            <span className="transicao-exercicios__rotulo">⏱ Descanso entre exercícios</span>
+                          </td>
+                          <td className="tabela__coluna-centralizada">
+                            <input
+                              type="number"
+                              min={0}
+                              className="tabela__input-numero"
+                              value={exercicio.descansoTransicaoSegundos}
+                              onChange={(e) => atualizarDescansoTransicao(exercicio.exercicioId, Number(e.target.value))}
+                              aria-label={`Descanso após ${exercicio.nome}`}
+                              disabled={somenteLeitura}
+                            />
+                          </td>
+                          <td colSpan={somenteLeitura ? 1 : 2}></td>
+                        </tr>
                       ) : null}
-                    </tr>
+                    </React.Fragment>
                   ))}
                 </tbody>
               </table>
@@ -524,14 +534,18 @@ export function TreinoFormulario({ modo }: TreinoFormularioProps) {
 
 /**
  * Preview client-side da duração (o valor definitivo vem do backend após
- * criar/atualizar/obterPorId — POST e PUT recalculam duracaoEstimadaMinutos).
+ * criar/atualizar/obterPorId — POST e PUT recalculam duracaoEstimadaMinutos),
+ * espelhando a fórmula de calcularDuracaoEstimadaMinutos em
+ * exercicios-app-backend/src/utils/treino.ts.
  */
-function calcularDuracaoPreview(exercicios: ExercicioVinculado[], descansoGlobal: number): number {
+function calcularDuracaoPreview(exercicios: ExercicioVinculado[]): number {
   if (exercicios.length === 0) return 0;
-  const SEGUNDOS_EXECUCAO_BASE = 20;
-  const totalSegundos = exercicios.reduce((acumulado, exercicio) => {
-    const tempoExecucao = SEGUNDOS_EXECUCAO_BASE / (exercicio.multiplicadorVelocidade || 1);
-    return acumulado + exercicio.series * (tempoExecucao + descansoGlobal);
+  const totalSegundos = exercicios.reduce((acumulado, exercicio, indice) => {
+    const tempoExecucaoSegundos = (exercicio.series * TEMPO_BASE_SEGUNDOS_POR_SERIE) / (exercicio.multiplicadorVelocidade || 1);
+    const descansoProprioSegundos = exercicio.descansoSegundos * Math.max(exercicio.series - 1, 0);
+    const ehUltimoExercicio = indice === exercicios.length - 1;
+    const descansoTransicaoSegundos = ehUltimoExercicio ? 0 : exercicio.descansoTransicaoSegundos;
+    return acumulado + tempoExecucaoSegundos + descansoProprioSegundos + descansoTransicaoSegundos;
   }, 0);
   return Math.max(1, Math.round(totalSegundos / 60));
 }

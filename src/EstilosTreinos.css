@@ -232,6 +232,17 @@
   text-align: center;
 }
 
+.tabela__linha-transicao td {
+  background: #f8fafc;
+  padding: 10px 12px;
+}
+
+.transicao-exercicios__rotulo {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--texto-secundario);
+}
+
 .exercicios-selecionados__vazio {
   color: var(--texto-secundario);
   text-align: center;
