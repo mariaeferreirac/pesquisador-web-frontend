@@ -28,6 +28,7 @@ export interface ExercicioVinculado {
   ordem: number;
   series: number;
   descansoSegundos: number;
+  descansoTransicaoSegundos: number;
   multiplicadorVelocidade: number;
 }
 
@@ -44,7 +45,6 @@ export interface TreinoCriarRequest {
   fase: FaseTreino;
   nivel: NivelTreino;
   quantidadeSemanas: number;
-  descansoEntreSeriesSegundos: number;
   exercicios: ExercicioVinculado[];
 }
 
@@ -70,7 +70,6 @@ export interface TreinoDetalhe {
   fase: FaseTreino;
   nivel: NivelTreino;
   quantidadeSemanas: number;
-  descansoEntreSeriesSegundos: number;
   duracaoEstimadaMinutos: number;
   exercicios: ExercicioVinculado[];
 }
