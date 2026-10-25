@@ -790,3 +790,202 @@ body {
   font-size: 14px;
   margin: 8px 0 0;
 }
+
+/* Login */
+
+.login {
+  display: flex;
+  min-height: 100vh;
+}
+
+.login__painel {
+  width: 40%;
+  max-width: 520px;
+  background: var(--azul-sidebar);
+  color: #ffffff;
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login__painel-titulo {
+  margin: 0 0 12px;
+  font-size: 32px;
+}
+
+.login__painel-texto {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.login__conteudo {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+}
+
+.login__cartao {
+  width: 100%;
+  max-width: 400px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: var(--sombra-cartao);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.login__titulo {
+  margin: 0;
+  font-size: 24px;
+}
+
+.login__subtitulo {
+  margin: -8px 0 8px;
+  font-size: 14px;
+  color: var(--texto-secundario);
+}
+
+.login__senha {
+  position: relative;
+  display: flex;
+}
+
+.login__senha input {
+  flex: 1;
+  padding-right: 40px;
+}
+
+.login__senha-toggle {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  color: var(--texto-secundario);
+  display: flex;
+}
+
+.login__senha-toggle svg {
+  width: 18px;
+  height: 18px;
+}
+
+.login__erro {
+  margin: 0;
+  font-size: 14px;
+}
+
+.login__botao {
+  justify-content: center;
+  padding: 12px 16px;
+  text-decoration: none;
+}
+
+.login__link {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--azul);
+  text-decoration: none;
+  align-self: center;
+}
+
+.login__link:hover {
+  text-decoration: underline;
+}
+
+.login__link--direita {
+  align-self: flex-end;
+  margin-top: -8px;
+}
+
+.login__sucesso {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: #e7f6ec;
+  color: #1e7a3c;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .login__painel {
+    display: none;
+  }
+}
+
+/* Rodapé da sidebar (usuário logado) */
+
+/* A sidebar fica presa na altura da tela: o menu rola se não couber e o
+   rodapé com o pesquisador permanece sempre visível. */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.sidebar > .sidebar__lista {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.sidebar__rodape {
+  margin-top: auto;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sidebar__usuario {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-left: 12px;
+  min-width: 0;
+}
+
+.sidebar__usuario-nome {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.sidebar__usuario-email {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebar__sair {
+  display: flex;
+  flex-shrink: 0;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  background: none;
+  color: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+}
+
+.sidebar__sair:hover {
+  background: var(--azul-sidebar-ativo);
+  color: #ffffff;
+}

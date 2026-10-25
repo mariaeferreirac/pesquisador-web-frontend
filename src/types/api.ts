@@ -73,3 +73,25 @@ export interface TreinoDetalhe {
   duracaoEstimadaMinutos: number;
   exercicios: ExercicioVinculado[];
 }
+
+export interface LoginPesquisadorRequest {
+  email: string;
+  senha: string;
+}
+
+/** Dados do pesquisador retornados pelo backend após o login. */
+export interface PesquisadorLogado {
+  usuarioId: number;
+  pesquisadorId: number;
+  nome: string;
+  email: string;
+}
+
+export interface RedefinirSenhaPesquisadorRequest {
+  email: string;
+  novaSenha: string;
+}
+
+export interface MensagemApi {
+  message: string;
+}
