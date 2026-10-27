@@ -49,3 +49,12 @@ export function IconeChevron({ className }: IconeProps) {
     </svg>
   );
 }
+
+export function IconeSair({ className }: IconeProps) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <path d="M8 3.5H5a1.5 1.5 0 0 0-1.5 1.5v10A1.5 1.5 0 0 0 5 16.5h3" strokeLinecap="round" />
+      <path d="M12.5 6.5 16 10l-3.5 3.5M16 10H8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}

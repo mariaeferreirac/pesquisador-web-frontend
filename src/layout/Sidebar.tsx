@@ -1,6 +1,8 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
-import { IconeAvaliacoes, IconeChevron, IconeInstituicoes, IconeTreinos, IconeUsuarios } from './icones';
+import { encerrarSessao } from '../api/autenticacao';
+import type { PesquisadorLogado } from '../types/api';
+import { IconeAvaliacoes, IconeChevron, IconeInstituicoes, IconeSair, IconeTreinos, IconeUsuarios } from './icones';
 
 const itensEstaticos = [
   { rotulo: 'Usuários', Icone: IconeUsuarios },
@@ -17,7 +19,18 @@ const subItensTreinos = [
   { rota: '/participantes', rotulo: 'Participantes' },
 ];
 
-export function Sidebar() {
+type SidebarProps = {
+  pesquisador: PesquisadorLogado;
+};
+
+export function Sidebar({ pesquisador }: SidebarProps) {
+  const navigate = useNavigate();
+
+  const handleSair = () => {
+    encerrarSessao();
+    navigate('/login', { replace: true });
+  };
+
   return (
     <nav className="sidebar">
       <div className="sidebar__logo" />
@@ -56,6 +69,16 @@ export function Sidebar() {
           </ul>
         </li>
       </ul>
+
+      <div className="sidebar__rodape">
+        <div className="sidebar__usuario">
+          <span className="sidebar__usuario-nome">{pesquisador.nome}</span>
+          <span className="sidebar__usuario-email">{pesquisador.email}</span>
+        </div>
+        <button type="button" className="sidebar__sair" onClick={handleSair} aria-label="Sair" title="Sair">
+          <IconeSair className="sidebar__link-icone" />
+        </button>
+      </div>
     </nav>
   );
 }

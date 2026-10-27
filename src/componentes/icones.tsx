@@ -141,3 +141,24 @@ export function IconeArquivo({ className }: IconeProps) {
     </svg>
   );
 }
+
+export function IconeOlho({ className }: IconeProps) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <path d="M1.8 10S4.8 4.2 10 4.2 18.2 10 18.2 10 15.2 15.8 10 15.8 1.8 10 1.8 10Z" strokeLinejoin="round" />
+      <circle cx="10" cy="10" r="2.6" />
+    </svg>
+  );
+}
+
+export function IconeOlhoFechado({ className }: IconeProps) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <path
+        d="M8.2 4.4A7.6 7.6 0 0 1 10 4.2c5.2 0 8.2 5.8 8.2 5.8a14 14 0 0 1-2.3 3M5.6 5.6C3.1 7.2 1.8 10 1.8 10s3 5.8 8.2 5.8c1.6 0 3-.5 4.2-1.3M8.2 8.2a2.6 2.6 0 0 0 3.6 3.6M2.5 2.5l15 15"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}

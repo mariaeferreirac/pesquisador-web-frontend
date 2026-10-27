@@ -3,7 +3,9 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { LayoutPrincipal } from './layout/LayoutPrincipal';
 import { Categorias } from './paginas/Categorias';
 import { Dashboard } from './paginas/Dashboard';
+import { EsqueciSenha } from './paginas/EsqueciSenha';
 import { Exercicios } from './paginas/Exercicios';
+import { Login } from './paginas/Login';
 import { Participantes } from './paginas/Participantes';
 import { Treinos } from './paginas/Treinos';
 import { TreinoFormulario } from './paginas/treinos/TreinoFormulario';
@@ -23,6 +25,8 @@ function App() {
           <Route path="/participantes" element={<Participantes />} />
         </Route>
 
+        <Route path="/login" element={<Login />} />
+        <Route path="/esqueci-senha" element={<EsqueciSenha />} />
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
