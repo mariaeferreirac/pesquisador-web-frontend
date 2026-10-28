@@ -151,6 +151,30 @@ export function IconeOlho({ className }: IconeProps) {
   );
 }
 
+export function IconeUsuarios({ className }: IconeProps) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <circle cx="7.2" cy="6.5" r="2.3" />
+      <path d="M2.8 16c0-2.5 2-4 4.4-4s4.4 1.5 4.4 4" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M12.6 3.3a2.3 2.3 0 0 1 0 4.4M14.6 16c0-2.2-1.6-3.6-3.6-3.95"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+export function IconeInfo({ className }: IconeProps) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <circle cx="10" cy="10" r="7.6" />
+      <path d="M10 9.2v4.6" strokeLinecap="round" />
+      <circle cx="10" cy="6.4" r="0.15" fill="currentColor" stroke="currentColor" strokeWidth="1.4" />
+    </svg>
+  );
+}
+
 export function IconeOlhoFechado({ className }: IconeProps) {
   return (
     <svg className={className} viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6">

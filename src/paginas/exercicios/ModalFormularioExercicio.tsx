@@ -7,7 +7,6 @@ import { Modal } from '../../componentes/Modal';
 import { ModalConfirmacaoSaida } from './ModalConfirmacaoSaida';
 import type { Categoria, Exercicio } from '../../types/api';
 
-const NIVEIS = [1, 2, 3];
 const FORMATOS_VIDEO_ACEITOS = 'video/mp4,video/webm,video/quicktime';
 
 type ModalFormularioExercicioProps = {
@@ -26,8 +25,6 @@ export function ModalFormularioExercicio({
   const editando = Boolean(exercicio);
   const [nome, setNome] = React.useState(exercicio?.nome ?? '');
   const [categoriaId, setCategoriaId] = React.useState(exercicio?.categoriaId ?? categorias[0]?.id ?? 0);
-  const [nivel, setNivel] = React.useState(exercicio?.nivel ?? NIVEIS[0]);
-  const [descricao, setDescricao] = React.useState(exercicio?.instrucao.join(' ') ?? '');
   const [arquivoVideo, setArquivoVideo] = React.useState<File | null>(null);
   const [arrastandoArquivo, setArrastandoArquivo] = React.useState(false);
   const [modificado, setModificado] = React.useState(false);
@@ -63,8 +60,6 @@ export function ModalFormularioExercicio({
       const dados = {
         nome,
         categoriaId: Number(categoriaId),
-        nivel: Number(nivel),
-        instrucao: [descricao.trim()].filter((linha) => linha.length > 0),
         ...(arquivoVideo ? { video: arquivoVideo } : {}),
       };
       const resultado = exercicio
@@ -132,24 +127,6 @@ export function ModalFormularioExercicio({
             </select>
           </label>
 
-          <label className="campo">
-            Nível
-            <select
-              value={nivel}
-              onChange={(evento) => {
-                setNivel(Number(evento.target.value));
-                setModificado(true);
-              }}
-              required
-            >
-              {NIVEIS.map((valor) => (
-                <option key={valor} value={valor}>
-                  Nível {valor}
-                </option>
-              ))}
-            </select>
-          </label>
-
           <div className="campo">
             Vídeo da Execução
             <div
@@ -194,20 +171,6 @@ export function ModalFormularioExercicio({
               />
             </div>
           </div>
-
-          <label className="campo">
-            Descrição
-            <input
-              type="text"
-              value={descricao}
-              onChange={(evento) => {
-                setDescricao(evento.target.value);
-                setModificado(true);
-              }}
-              placeholder="Ex: Pegue uma Cadeira"
-              required
-            />
-          </label>
 
           {erro ? <p className="pagina__erro">{erro}</p> : null}
         </div>
