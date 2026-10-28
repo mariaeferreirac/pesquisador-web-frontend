@@ -16,7 +16,7 @@
   margin: 0 auto;
 }
 
-/* Cores por nível (linhas do gráfico, legenda e pontos) */
+/* Cores por fase (linhas do gráfico, legenda, abas e pontos) */
 .painel-nivel--iniciante {
   --cor-nivel: var(--painel-azul-claro);
 }
@@ -178,11 +178,74 @@
 }
 
 .painel-kpi__rotulo {
+  display: flex;
+  align-items: center;
+  gap: 5px;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--texto-secundario);
+}
+
+/* Ícone "i" com balão explicativo (usado nos rótulos de KPI) */
+
+.dica-info {
+  position: relative;
+  display: inline-flex;
+}
+
+.dica-info__botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  color: var(--texto-secundario);
+  cursor: pointer;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.dica-info__botao:hover,
+.dica-info__botao[aria-expanded='true'] {
+  color: var(--painel-azul);
+}
+
+.dica-info__botao svg {
+  width: 14px;
+  height: 14px;
+}
+
+.dica-info__balao {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 240px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #1f2937;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+  text-transform: none;
+  letter-spacing: normal;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.22);
+}
+
+.dica-info__balao::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 7px;
+  border: 6px solid transparent;
+  border-bottom-color: #1f2937;
 }
 
 .painel-kpi__valor {
@@ -237,6 +300,10 @@
 
 .painel-grade--distribuicao {
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) minmax(0, 1.1fr);
+}
+
+.painel-grade--secundaria {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
 }
 
 /* Linha rótulo + valor (usada em barras) */
@@ -315,7 +382,30 @@
 .painel-legenda__item {
   display: inline-flex;
   align-items: center;
+}
+
+.painel-legenda__botao {
+  display: inline-flex;
+  align-items: center;
   gap: 6px;
+  border: none;
+  background: none;
+  padding: 2px 4px;
+  margin: -2px -4px;
+  border-radius: 6px;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity 0.15s ease, background 0.15s ease;
+}
+
+.painel-legenda__botao:hover {
+  background: rgba(15, 23, 42, 0.05);
+}
+
+.painel-legenda__botao--inativo {
+  opacity: 0.4;
 }
 
 .painel-legenda__linha {
@@ -369,6 +459,22 @@
   stroke-linejoin: round;
   stroke-linecap: round;
   vector-effect: non-scaling-stroke;
+  transition: opacity 0.15s ease;
+}
+
+.painel-linhas__serie--oculta {
+  opacity: 0;
+}
+
+/* Faixa invisível e mais larga, desenhada por cima da linha visível, só para
+   facilitar o clique (a linha real tem apenas 2.5px de espessura). */
+.painel-linhas__serie-alvo {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 14;
+  vector-effect: non-scaling-stroke;
+  cursor: pointer;
+  pointer-events: stroke;
 }
 
 .painel-linhas__ponto {
@@ -379,10 +485,17 @@
   border-radius: 50%;
   background: #ffffff;
   border: 2px solid var(--cor-nivel);
+  cursor: pointer;
+  transition: opacity 0.15s ease;
 }
 
 .painel-linhas__ponto:hover {
   background: var(--cor-nivel);
+}
+
+.painel-linhas__ponto--oculto {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .painel-linhas__eixo-x {
@@ -424,15 +537,22 @@
   flex-direction: column;
 }
 
-.painel-alertas__resposta {
-  margin-top: auto;
-  padding-top: 16px;
-  border-top: 1px solid var(--borda);
+.painel-alertas__acao {
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+.painel-alertas__vazio {
+  margin: 0;
+  padding: 18px 4px;
+  font-size: 13px;
+  color: var(--texto-secundario);
+  line-height: 1.5;
 }
 
 .painel-alertas__lista {
   list-style: none;
-  margin: 0 0 20px;
+  margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
@@ -440,11 +560,9 @@
 }
 
 .painel-alerta {
-  display: flex;
-  gap: 12px;
-  padding: 14px 16px;
   border-radius: 10px;
   font-size: 13px;
+  overflow: hidden;
 }
 
 .painel-alerta--critico {
@@ -457,6 +575,67 @@
   background: #eef4ff;
   border: 1px solid #d3e1fb;
   color: #1e3a8a;
+}
+
+.painel-alerta--inativo {
+  opacity: 0.72;
+}
+
+.painel-alerta__linha {
+  display: flex;
+  align-items: stretch;
+}
+
+.painel-alerta__botao {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 12px 14px 16px;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.painel-alerta__botao:hover,
+.painel-alerta__botao:focus-visible {
+  background: rgba(15, 23, 42, 0.06);
+}
+
+.painel-alerta__editar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  flex-shrink: 0;
+  border: none;
+  border-left: 1px solid rgba(15, 23, 42, 0.08);
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+.painel-alerta__editar:hover,
+.painel-alerta__editar:focus-visible {
+  background: rgba(15, 23, 42, 0.06);
+  opacity: 1;
+}
+
+.painel-alerta__editar svg {
+  width: 15px;
+  height: 15px;
+}
+
+.painel-alerta__texto {
+  flex: 1;
+  min-width: 0;
 }
 
 .painel-alerta__icone {
@@ -482,6 +661,111 @@
 .painel-alerta__descricao {
   margin: 4px 0 0;
   line-height: 1.45;
+}
+
+.painel-alerta__pct {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.painel-alerta__icone-pessoas {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  opacity: 0.75;
+}
+
+/* Modal de participantes do alerta */
+
+.painel-alerta-modal__descricao {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--texto);
+}
+
+.painel-alerta-modal__icone-titulo {
+  width: 16px;
+  height: 16px;
+  color: var(--painel-azul);
+  flex-shrink: 0;
+}
+
+.painel-alerta-modal__lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.painel-alerta-modal__lista li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--texto);
+}
+
+.painel-alerta-modal__lista li:hover {
+  background: #f4f6fb;
+}
+
+.painel-alerta-modal__icone {
+  width: 16px;
+  height: 16px;
+  color: var(--texto-secundario);
+  flex-shrink: 0;
+}
+
+.painel-alerta-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: #f4f6fb;
+  border: 1px solid var(--borda);
+}
+
+.painel-alerta-preview__rotulo {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--texto-secundario);
+}
+
+.painel-alerta-preview__titulo {
+  font-size: 14px;
+  color: var(--texto);
+}
+
+.painel-alerta-preview__descricao {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--texto-secundario);
+}
+
+.modal__rodape--entre {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal__rodape-acoes {
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
 }
 
 /* Rosca (sexo) */
@@ -582,6 +866,55 @@
   background: var(--painel-azul-claro);
 }
 
+/* Pizza (distribuição por fase) */
+
+.painel-pizza {
+  width: min(100%, 180px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  margin: 4px auto 18px;
+}
+
+.painel-esforco-pizza__legenda {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--borda);
+}
+
+.painel-esforco-pizza__item {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.painel-esforco-pizza__item dt {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--texto-secundario);
+}
+
+.painel-esforco-pizza__item dd {
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.painel-esforco-pizza__item dd strong {
+  font-size: 16px;
+}
+
+.painel-esforco-pizza__item dd small {
+  font-size: 11px;
+  color: var(--texto-secundario);
+}
+
 /* Colunas (idade) */
 
 .painel-colunas {
@@ -635,7 +968,7 @@
   color: var(--texto-secundario);
 }
 
-/* Nível × esforço */
+/* Fase × esforço (3 colunas: faixas OMNI dentro de cada fase) */
 
 .painel-niveis__grade {
   display: grid;
@@ -648,7 +981,7 @@
   align-items: baseline;
   justify-content: space-between;
   gap: 8px;
-  margin-bottom: 10px;
+  margin-bottom: 16px;
 }
 
 .painel-nivel__cabecalho h3 {
@@ -661,56 +994,73 @@
   color: var(--texto-secundario);
 }
 
-.painel-nivel__total {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 16px;
+/* Progressão — lista vertical compacta (evita overflow na coluna ao lado da pizza) */
+
+.painel-progressao {
+  min-width: 0;
+  overflow: hidden;
 }
 
-/* Progressão */
-
-/* Os dois cards e os dois tempos médios compartilham as mesmas colunas (cada tempo fica sob seu card). */
 .painel-progressao__lista {
   list-style: none;
-  margin: 0 0 20px;
+  margin: 0;
   padding: 0;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
 }
 
 .painel-progressao__item {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 18px;
-  border-radius: 10px;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  padding: 14px 16px;
+  border-radius: 12px;
   background: var(--painel-azul-fundo);
-  font-size: 14px;
+  box-sizing: border-box;
 }
 
-.painel-progressao__item strong {
-  font-size: 24px;
+.painel-progressao__topo {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+}
+
+.painel-progressao__titulo {
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--texto);
+  overflow-wrap: anywhere;
+}
+
+.painel-progressao__valor {
+  flex-shrink: 0;
+  font-size: 28px;
+  line-height: 1;
   color: var(--painel-azul);
 }
 
-.painel-progressao__tempos {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin: 0;
-}
-
-.painel-progressao__tempos dt {
-  font-size: 20px;
-  font-weight: 700;
-}
-
-.painel-progressao__tempos dd {
-  margin: 2px 0 0;
+.painel-progressao__pct {
   font-size: 12px;
   color: var(--texto-secundario);
+}
+
+.painel-progressao__tempo {
+  padding-top: 8px;
+  border-top: 1px solid rgba(37, 99, 235, 0.15);
+  font-size: 12px;
+  color: var(--texto-secundario);
+}
+
+.painel-progressao__tempo strong {
+  color: var(--texto);
+  font-weight: 700;
 }
 
 /* Responsividade (foco em desktop; degrada com elegância em telas menores) */
@@ -728,7 +1078,8 @@
 }
 
 @media (max-width: 1200px) {
-  .painel-grade--principal {
+  .painel-grade--principal,
+  .painel-grade--secundaria {
     grid-template-columns: minmax(0, 1fr);
   }
 
@@ -742,9 +1093,7 @@
 }
 
 @media (max-width: 900px) {
-  .painel-niveis__grade,
-  .painel-progressao__lista,
-  .painel-progressao__tempos {
+  .painel-niveis__grade {
     grid-template-columns: minmax(0, 1fr);
   }
 }

@@ -25,8 +25,7 @@ export function buscarExercicio(id: number): Promise<Exercicio> {
 export interface DadosExercicio {
   nome: string;
   categoriaId: number;
-  nivel: number;
-  instrucao: string[];
+  instrucao?: string[];
   video?: File;
 }
 
@@ -34,7 +33,6 @@ function montarFormData(dados: Partial<DadosExercicio>): FormData {
   const formData = new FormData();
   if (dados.nome !== undefined) formData.set('nome', dados.nome);
   if (dados.categoriaId !== undefined) formData.set('categoriaId', String(dados.categoriaId));
-  if (dados.nivel !== undefined) formData.set('nivel', String(dados.nivel));
   if (dados.instrucao !== undefined) formData.set('instrucao', JSON.stringify(dados.instrucao));
   if (dados.video) formData.set('video', dados.video);
   return formData;

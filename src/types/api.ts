@@ -14,7 +14,6 @@ export interface Exercicio {
   videoUrl: string;
   instrucao: string[];
   categoriaId: number;
-  nivel: number;
   ativo: boolean;
   criadoEm?: string;
 }

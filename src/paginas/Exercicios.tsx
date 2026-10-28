@@ -12,7 +12,7 @@ import { ModalFormularioExercicio } from './exercicios/ModalFormularioExercicio'
 import { ModalVisualizarVideo } from './exercicios/ModalVisualizarVideo';
 import type { Categoria, Exercicio } from '../types/api';
 
-const ITENS_POR_PAGINA = 3;
+const ITENS_POR_PAGINA = 10;
 
 type EstadoModal =
   | { tipo: 'nenhum' }
